@@ -10,7 +10,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const HomePage = () => {
   const [name, setName] = useState("");
   const { user } = useUser();
-  const [noPrompt, setNoPrompt] = useState(false);
+  const [noPrompt, setNoPrompt] = useState(true);
   const [inputText, setInputText] = useState(""); // State to capture input text
   const [chatHistory, setChatHistory] = useState([]); // State to store chat messages
   const [loading, setLoading] = useState(false); // State to manage loading state
@@ -43,6 +43,7 @@ const HomePage = () => {
 
   // Handle sending message
   const handleSend = async () => {
+    setNoPrompt(false);
     if (inputText.trim()) {
       // Create a new chat message object
       const newMessage = {
@@ -261,7 +262,7 @@ const HomePage = () => {
               className="send-button"
               onClick={handleSend} // Call handleSend function on button click
             >
-               →
+               <img src="https://cdn-icons-png.flaticon.com/128/7168/7168051.png" height={30} width={30} />
             </button>
           </div>
         </div>
@@ -269,13 +270,11 @@ const HomePage = () => {
       
       {/* Styling for chat layout */}
       <style jsx>{`
-        .chatView {
+        {/* .chatView {
           padding: 10px;
-          height: 300px;
+          height: 400px;
           overflow-y: auto;
-          display: flex;
-          flex-direction: column;
-        }
+        } */}
 
         .message {
           display: flex;
