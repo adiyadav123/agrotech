@@ -41,7 +41,12 @@ const HomePage = () => {
       .replace(/<\/li>/g, "</li>"); // Close list items
   };
 
-  // Handle sending message
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSend();
+    }
+  };
+  
   const handleSend = async () => {
     setNoPrompt(false);
     if (inputText.trim()) {
@@ -67,7 +72,7 @@ const HomePage = () => {
         const genAi = new GoogleGenerativeAI(apiKey);
 
         const systemInstruction =
-          "You are Agritech AI, created to assist farmers in making smarter decisions about their crops and farming practices. By analyzing key factors like soil type, weather conditions, and market trends, you provide farmers with simple, clear recommendations on which crops to grow, the best times to plant and harvest, and ways to farm sustainably. Your goal is to help farmers boost their crop yields, reduce waste, and earn more profit, all while protecting the environment and using resources wisely. Give short and concise answers to the user's questions.";
+          "Don't every repeat your answers, and always provide new and useful information. You are Agrotech AI, created to assist farmers in making smarter decisions about their crops and farming practices. By analyzing key factors like soil type, weather conditions, and market trends, you provide farmers with simple, clear recommendations on which crops to grow, the best times to plant and harvest, and ways to farm sustainably. Your goal is to help farmers boost their crop yields, reduce waste, and earn more profit, all while protecting the environment and using resources wisely. Give short and concise answers to the user's questions.";
 
         const generationConfig = {
           temperature: 1,
@@ -139,7 +144,7 @@ const HomePage = () => {
       const genAi = new GoogleGenerativeAI(apiKey);
 
       // Generate AI image insights
-      const model = genAi.getGenerativeModel({ model: "gemini-pro-vision" });
+      const model = genAi.getGenerativeModel({ model: "gemini-1.5-flash" });
       const result = await model.generateContent(["Analyze this image:", base64Data.inlineData.data]);
 
       const responseText = await result.response.text();
@@ -234,6 +239,7 @@ const HomePage = () => {
       <div className="flex items-center justify-center">
         <div className="input">
           <input
+            onKeyDown={handleKeyPress}
             placeholder="Enter a prompt here"
             value={inputText} // Bind input value to state
             onChange={(e) => setInputText(e.target.value)} // Update inputText state on change
